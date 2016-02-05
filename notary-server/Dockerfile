@@ -2,7 +2,8 @@ FROM alpine:latest
 
 EXPOSE 4443
 
-COPY . /notary/server
+COPY ./server-config.json /notary/server
+COPY ./notary-server /notary/server
 
 WORKDIR /notary/server
 

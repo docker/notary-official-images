@@ -14,7 +14,7 @@
 	  "tls_client_key": "/certs/notary-server.key"
 	},
 	"logging": {
-		"level": "debug"
+		"level": "info"
 	},
 	"storage": {
 		"backend": "mysql",

@@ -7,7 +7,7 @@
 		"client_ca_file": "/certs/notary-server.crt"
 	},
 	"logging": {
-		"level": "debug"
+		"level": "info"
 	},
 	"storage": {
 		"backend": "mysql",

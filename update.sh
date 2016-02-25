@@ -16,5 +16,10 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 cd $GOPATH/src/github.com/docker/notary
 make static
 
+cd $DIR
+
+cp $GOPATH/src/github.com/docker/notary/bin/static/notary-server ./notary-server
+cp $GOPATH/src/github.com/docker/notary/bin/static/notary-signer ./notary-signer
+
 # return user to original location
 cd $ORIG

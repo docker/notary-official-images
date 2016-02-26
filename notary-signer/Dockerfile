@@ -5,8 +5,15 @@ EXPOSE 7899
 
 COPY ./signer-config.json /notary/signer/
 COPY ./notary-signer /notary/signer/
+COPY ./entrypoint.sh /notary/signer/
 
 WORKDIR /notary/signer
 
-ENTRYPOINT [ "/notary/signer/notary-signer" ]
-CMD [ "--help" ]
+RUN adduser -D -H -g "" notary
+
+USER notary
+
+ENV PATH=$PATH:/notary/signer
+
+ENTRYPOINT [ "entrypoint.sh" ]
+CMD [ "notary-signer", "--help" ]

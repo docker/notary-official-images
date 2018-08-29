@@ -13,13 +13,13 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 # build the binaries
-cd $GOPATH/src/github.com/docker/notary
+cd $GOPATH/src/github.com/theupdateframework/notary
 make static
 
 cd $DIR
 
-cp $GOPATH/src/github.com/docker/notary/bin/static/notary-server ./notary-server
-cp $GOPATH/src/github.com/docker/notary/bin/static/notary-signer ./notary-signer
+cp $GOPATH/src/github.com/theupdateframework/notary/bin/static/notary-server ./notary-server
+cp $GOPATH/src/github.com/theupdateframework/notary/bin/static/notary-signer ./notary-signer
 
 # return user to original location
 cd $ORIG

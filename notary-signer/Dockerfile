@@ -9,13 +9,13 @@ EXPOSE 7899
 WORKDIR ${INSTALLDIR}
 
 RUN set -eux; \
-    apk --no-cache add git go make musl-dev; \
+    apk add --no-cache --virtual build-deps git go make musl-dev; \
     export GOPATH=/go GOCACHE=/go/cache; \
     mkdir -p ${GOPATH}/src/${NOTARYPKG}; \
     git clone -b ${TAG} --depth 1 https://${NOTARYPKG} ${GOPATH}/src/${NOTARYPKG}; \
     make -C ${GOPATH}/src/${NOTARYPKG} PREFIX=. ./bin/static/notary-signer; \
     cp -vL ${GOPATH}/src/${NOTARYPKG}/bin/static/notary-signer ./; \
-    apk --no-cache del git go make musl-dev; \
+    apk del --no-network build-deps; \
     rm -rf ${GOPATH}
 
 COPY ./signer-config.json .

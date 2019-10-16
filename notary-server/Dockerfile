@@ -9,7 +9,7 @@ WORKDIR ${INSTALLDIR}
 
 RUN set -eux; \
     apk add --no-cache --virtual build-deps git go make musl-dev; \
-    go version | grep 'go1.12.8 '; \
+    go version | grep 'go1.12.10'; \
     export GOPATH=/go GOCACHE=/go/cache; \
     mkdir -p ${GOPATH}/src/${NOTARYPKG}; \
     git clone -b ${TAG} --depth 1 https://${NOTARYPKG} ${GOPATH}/src/${NOTARYPKG}; \

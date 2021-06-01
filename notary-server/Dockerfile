@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:3.13
 
 ENV TAG v0.6.1
 ENV NOTARYPKG github.com/theupdateframework/notary
@@ -9,14 +9,14 @@ WORKDIR ${INSTALLDIR}
 
 RUN set -eux; \
     apk add --no-cache --virtual build-deps git go make musl-dev; \
-    go version | grep 'go1.12.12 '; \
     export GOPATH=/go GOCACHE=/go/cache; \
     mkdir -p ${GOPATH}/src/${NOTARYPKG}; \
     git clone -b ${TAG} --depth 1 https://${NOTARYPKG} ${GOPATH}/src/${NOTARYPKG}; \
     make -C ${GOPATH}/src/${NOTARYPKG} SKIPENVCHECK=1 PREFIX=. ./bin/static/notary-server; \
     cp -vL ${GOPATH}/src/${NOTARYPKG}/bin/static/notary-server ./; \
     apk del --no-network build-deps; \
-    rm -rf ${GOPATH}
+    rm -rf ${GOPATH}; \
+    ./notary-server --help
 
 COPY ./server-config.json .
 COPY ./entrypoint.sh .

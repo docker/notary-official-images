@@ -1,6 +1,6 @@
 FROM alpine:3.13
 
-ENV TAG v0.6.1
+ENV TAG v0.7.0
 ENV NOTARYPKG github.com/theupdateframework/notary
 ENV INSTALLDIR /notary/signer
 EXPOSE 4444

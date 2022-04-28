@@ -1,0 +1,14 @@
+name: GitHub CI
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: docker build notary-server
+      - run: docker build notary-signer

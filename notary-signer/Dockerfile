@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.12
 
 ENV TAG v0.7.0
 ENV NOTARYPKG github.com/theupdateframework/notary
@@ -17,7 +17,7 @@ RUN set -eux; \
     cp -vL ${GOPATH}/src/${NOTARYPKG}/bin/static/notary-signer ./; \
     apk del --no-network build-deps; \
     rm -rf ${GOPATH}; \
-    ./notary-signer --help
+    ./notary-signer --version
 
 COPY ./signer-config.json .
 COPY ./entrypoint.sh .
@@ -27,4 +27,4 @@ USER notary
 ENV PATH=$PATH:${INSTALLDIR}
 
 ENTRYPOINT [ "entrypoint.sh" ]
-CMD [ "notary-signer", "--help" ]
+CMD [ "notary-signer", "--version" ]

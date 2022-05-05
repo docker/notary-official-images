@@ -9,7 +9,7 @@ EXPOSE 7899
 WORKDIR ${INSTALLDIR}
 
 RUN set -eux; \
-    apk add --no-cache --virtual build-deps git make go; \
+    apk add --no-cache --virtual build-deps git go make musl-dev; \
     export GOPATH=/go GOCACHE=/go/cache; \
     mkdir -p ${GOPATH}/src/${NOTARYPKG}; \
     git clone -b ${TAG} --depth 1 https://${NOTARYPKG} ${GOPATH}/src/${NOTARYPKG}; \

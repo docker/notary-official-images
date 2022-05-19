@@ -9,6 +9,12 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - run: docker build notary-server
-      - run: docker build notary-signer
+      - uses: actions/checkout@v3
+      - run: docker build notary-server --tag notary:server
+      - run: docker build notary-signer --tag notary:signer
+      - uses: actions/checkout@v3 # clone Notary upstream repo (used for generating necessary certificates to test against)
+        with:
+          repository: 'notaryproject/notary'
+          ref: 'v0.7.0'
+          path: 'notary-src'
+      - run: NOTARY_SOURCE="$GITHUB_WORKSPACE/notary-src" ./.test/test.sh

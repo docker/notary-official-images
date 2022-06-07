@@ -1,0 +1,13 @@
+{
+	"server": {
+		"grpc_addr": ":7899",
+		"tls_cert_file": "/fixtures/notary-signer.crt",
+		"tls_key_file": "/fixtures/notary-signer.key"
+	},
+	"logging": {
+		"level": "debug"
+	},
+	"storage": {
+		"backend": "memory"
+	}
+}

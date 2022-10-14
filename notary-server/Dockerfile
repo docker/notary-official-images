@@ -1,29 +1,36 @@
-FROM alpine:3.12
+FROM golang:1.19-alpine3.16 AS build
 
-ENV TAG v0.7.0
+RUN apk add --no-cache git make
+
 ENV NOTARYPKG github.com/theupdateframework/notary
-ENV INSTALLDIR /notary/server
+ENV TAG v0.7.0
+
+ENV GOFLAGS -mod=vendor
+
+WORKDIR /go/src/$NOTARYPKG
+RUN set -eux; \
+	git clone -b "$TAG" --depth 1 "https://$NOTARYPKG.git" .; \
+	make SKIPENVCHECK=1 PREFIX=. ./bin/static/notary-server ./bin/static/notary-signer; \
+	cp -vL ./bin/static/notary-server ./bin/static/notary-signer /; \
+	/notary-server --version; \
+	/notary-signer --version
+
+FROM alpine:3.16
+
+RUN adduser -D -H -g "" notary
 EXPOSE 4443
 
+ENV INSTALLDIR /notary/server
+ENV PATH=$PATH:${INSTALLDIR}
 WORKDIR ${INSTALLDIR}
 
-RUN set -eux; \
-    apk add --no-cache --virtual build-deps git go make musl-dev; \
-    export GOPATH=/go GOCACHE=/go/cache; \
-    mkdir -p ${GOPATH}/src/${NOTARYPKG}; \
-    git clone -b ${TAG} --depth 1 https://${NOTARYPKG} ${GOPATH}/src/${NOTARYPKG}; \
-    make -C ${GOPATH}/src/${NOTARYPKG} SKIPENVCHECK=1 PREFIX=. ./bin/static/notary-server; \
-    cp -vL ${GOPATH}/src/${NOTARYPKG}/bin/static/notary-server ./; \
-    apk del --no-network build-deps; \
-    rm -rf ${GOPATH}; \
-    ./notary-server --version
+COPY --from=build /notary-server ./
+RUN ./notary-server --version
 
 COPY ./server-config.json .
 COPY ./entrypoint.sh .
 
-RUN adduser -D -H -g "" notary
 USER notary
-ENV PATH=$PATH:${INSTALLDIR}
 
 ENTRYPOINT [ "entrypoint.sh" ]
 CMD [ "notary-server", "--version" ]

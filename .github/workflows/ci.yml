@@ -15,6 +15,6 @@ jobs:
       - uses: actions/checkout@v3 # clone Notary upstream repo (used for generating necessary certificates to test against)
         with:
           repository: 'notaryproject/notary'
-          ref: '74ee191c214795fb5e839bca841c7be2030d0002'
+          ref: '887a007da8841e49023684656926d79d89d5a9d8'
           path: 'notary-src'
       - run: NOTARY_SOURCE="$GITHUB_WORKSPACE/notary-src" ./.test/test.sh

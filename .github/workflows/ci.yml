@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: |
+          docker build notary-builder --tag notary:builder
+          tag="$(docker run --rm notary:builder sh -c 'echo $TAG' | awk '{gsub(/^v/, ""); print}')"
+          docker tag notary:builder "notary:${tag}-builder"
       - run: docker build notary-server --tag notary:server
       - run: docker build notary-signer --tag notary:signer
       - uses: actions/checkout@v3 # clone Notary upstream repo (used for generating necessary certificates to test against)

@@ -1,5 +1,7 @@
 FROM golang:1.19-alpine3.16 AS build
 
+ARG BUILDKIT_SBOM_SCAN_STAGE=true
+
 RUN apk add --no-cache git make
 
 ENV NOTARYPKG github.com/theupdateframework/notary

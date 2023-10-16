@@ -1,15 +1,9 @@
-#
-# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
-#
-# PLEASE DO NOT EDIT IT DIRECTLY.
-#
-
-FROM golang:1.19-alpine3.16
+FROM golang:1.19-alpine{{ .alpine }}
 
 RUN apk add --no-cache git make
 
 ENV NOTARYPKG github.com/theupdateframework/notary
-ENV TAG v0.7.0
+ENV TAG v{{ .version }}
 
 ENV GOFLAGS -mod=vendor
 

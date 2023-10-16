@@ -26,4 +26,6 @@ RUN set -eux; \
 	make SKIPENVCHECK=1 PREFIX=. ./bin/static/notary-server ./bin/static/notary-signer; \
 	cp -vL ./bin/static/notary-server ./bin/static/notary-signer /; \
 	/notary-server --version; \
-	/notary-signer --version
+	/notary-signer --version; \
+	\
+	echo '{"spdxVersion":"SPDX-2.3","SPDXID":"SPDXRef-DOCUMENT","name":"notary-sbom","packages":[{"name":"notary","versionInfo":"0.7.0","SPDXID":"SPDXRef-Package--notary","externalRefs":[{"referenceCategory":"PACKAGE-MANAGER","referenceType":"purl","referenceLocator":"pkg:generic/notary@0.7.0?os_name=alpine&os_version=3.16"}],"licenseDeclared":"Apache-2.0"}]}' > /notary.spdx.json;

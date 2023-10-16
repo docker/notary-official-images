@@ -1,3 +1,4 @@
+{{ include ".template-helper-functions" -}}
 FROM golang:1.19-alpine{{ .alpine }}
 
 RUN apk add --no-cache git make
@@ -20,4 +21,18 @@ RUN set -eux; \
 	make SKIPENVCHECK=1 PREFIX=. ./bin/static/notary-server ./bin/static/notary-signer; \
 	cp -vL ./bin/static/notary-server ./bin/static/notary-signer /; \
 	/notary-server --version; \
-	/notary-signer --version
+	/notary-signer --version; \
+	\
+	echo {{
+		{
+			name: "notary",
+			version: .version,
+			params: {
+				os_name: "alpine",
+				os_version: .alpine
+			},
+			licenses: [
+				"Apache-2.0"
+			]
+		} | sbom | tostring | @sh
+	}} > /notary.spdx.json;

@@ -1,4 +1,4 @@
-FROM golang:1.19-alpine{{ .alpine }} AS build
+FROM golang:{{ .golang }}-alpine{{ .alpine }} AS build
 
 RUN apk add --no-cache git make
 

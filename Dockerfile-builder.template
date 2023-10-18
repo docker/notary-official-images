@@ -1,5 +1,5 @@
 {{ include ".template-helper-functions" -}}
-FROM golang:1.19-alpine{{ .alpine }}
+FROM golang:{{ .golang }}-alpine{{ .alpine }}
 
 RUN apk add --no-cache git make
 

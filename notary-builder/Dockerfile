@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM golang:1.19-alpine3.16
+FROM golang:1.20-alpine3.18
 
 RUN apk add --no-cache git make
 
@@ -28,4 +28,4 @@ RUN set -eux; \
 	/notary-server --version; \
 	/notary-signer --version; \
 	\
-	echo '{"spdxVersion":"SPDX-2.3","SPDXID":"SPDXRef-DOCUMENT","name":"notary-sbom","packages":[{"name":"notary","versionInfo":"0.7.0","SPDXID":"SPDXRef-Package--notary","externalRefs":[{"referenceCategory":"PACKAGE-MANAGER","referenceType":"purl","referenceLocator":"pkg:generic/notary@0.7.0?os_name=alpine&os_version=3.16"}],"licenseDeclared":"Apache-2.0"}]}' > /notary.spdx.json;
+	echo '{"spdxVersion":"SPDX-2.3","SPDXID":"SPDXRef-DOCUMENT","name":"notary-sbom","packages":[{"name":"notary","versionInfo":"0.7.0","SPDXID":"SPDXRef-Package--notary","externalRefs":[{"referenceCategory":"PACKAGE-MANAGER","referenceType":"purl","referenceLocator":"pkg:generic/notary@0.7.0?os_name=alpine&os_version=3.18"}],"licenseDeclared":"Apache-2.0"}]}' > /notary.spdx.json;

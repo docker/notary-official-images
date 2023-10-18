@@ -1,3 +1,9 @@
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
+
 FROM alpine:3.16
 
 RUN adduser -D -H -g "" notary
@@ -8,7 +14,7 @@ ENV INSTALLDIR /notary/signer
 ENV PATH=$PATH:${INSTALLDIR}
 WORKDIR ${INSTALLDIR}
 
-COPY --from=notary:0.7.0-builder /notary-signer ./
+COPY --from=notary:0.7.0-builder /notary-signer /notary.spdx.json ./
 RUN ./notary-signer --version
 
 COPY ./signer-config.json .

@@ -1,15 +1,10 @@
-#
-# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
-#
-# PLEASE DO NOT EDIT IT DIRECTLY.
-#
-
-FROM golang:1.19-alpine3.16
+{{ include ".template-helper-functions" -}}
+FROM golang:1.19-alpine{{ .alpine }}
 
 RUN apk add --no-cache git make
 
 ENV NOTARYPKG github.com/theupdateframework/notary
-ENV TAG v0.7.0
+ENV TAG v{{ .version }}
 
 ENV GOFLAGS -mod=vendor
 
@@ -28,4 +23,16 @@ RUN set -eux; \
 	/notary-server --version; \
 	/notary-signer --version; \
 	\
-	echo '{"spdxVersion":"SPDX-2.3","SPDXID":"SPDXRef-DOCUMENT","name":"notary-sbom","packages":[{"name":"notary","versionInfo":"0.7.0","SPDXID":"SPDXRef-Package--notary","externalRefs":[{"referenceCategory":"PACKAGE-MANAGER","referenceType":"purl","referenceLocator":"pkg:generic/notary@0.7.0?os_name=alpine&os_version=3.16"}],"licenseDeclared":"Apache-2.0"}]}' > /notary.spdx.json;
+	echo {{
+		{
+			name: "notary",
+			version: .version,
+			params: {
+				os_name: "alpine",
+				os_version: .alpine
+			},
+			licenses: [
+				"Apache-2.0"
+			]
+		} | sbom | tostring | @sh
+	}} > /notary.spdx.json;

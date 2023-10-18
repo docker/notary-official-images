@@ -1,0 +1,24 @@
+FROM alpine:{{ .alpine }}
+
+RUN adduser -D -H -g "" notary
+{{ if env.variant == "server" then ( -}}
+EXPOSE 4443
+{{ ) else ( -}}
+EXPOSE 4444
+EXPOSE 7899
+{{ ) end -}}
+
+ENV INSTALLDIR /notary/{{ env.variant }}
+ENV PATH=$PATH:${INSTALLDIR}
+WORKDIR ${INSTALLDIR}
+
+COPY --from=notary:{{ .version }}-builder /notary-{{ env.variant }} /notary.spdx.json ./
+RUN ./notary-{{ env.variant }} --version
+
+COPY ./{{ env.variant }}-config.json .
+COPY ./entrypoint.sh .
+
+USER notary
+
+ENTRYPOINT [ "entrypoint.sh" ]
+CMD [ "notary-{{ env.variant }}", "--version" ]

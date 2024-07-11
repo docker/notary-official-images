@@ -13,7 +13,7 @@ ENV INSTALLDIR /notary/server
 ENV PATH=$PATH:${INSTALLDIR}
 WORKDIR ${INSTALLDIR}
 
-COPY --from=notary:0.7.0-builder /notary-server /notary.spdx.json ./
+COPY --from=notary:0.7.0-builder /notary-server ./
 RUN ./notary-server --version
 
 COPY ./server-config.json .

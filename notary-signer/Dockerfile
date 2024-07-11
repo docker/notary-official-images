@@ -14,7 +14,7 @@ ENV INSTALLDIR /notary/signer
 ENV PATH=$PATH:${INSTALLDIR}
 WORKDIR ${INSTALLDIR}
 
-COPY --from=notary:0.7.0-builder /notary-signer /notary.spdx.json ./
+COPY --from=notary:0.7.0-builder /notary-signer ./
 RUN ./notary-signer --version
 
 COPY ./signer-config.json .

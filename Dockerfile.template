@@ -12,7 +12,7 @@ ENV INSTALLDIR /notary/{{ env.variant }}
 ENV PATH=$PATH:${INSTALLDIR}
 WORKDIR ${INSTALLDIR}
 
-COPY --from=notary:{{ .version }}-builder /notary-{{ env.variant }} /notary.spdx.json ./
+COPY --from=notary:{{ .version }}-builder /notary-{{ env.variant }} ./
 RUN ./notary-{{ env.variant }} --version
 
 COPY ./{{ env.variant }}-config.json .

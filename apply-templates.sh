@@ -26,7 +26,7 @@ generated_warning() {
 
 export version=latest
 
-for variant in builder signer server; do
+for variant in signer server; do
 	export variant
 
 	dockerfile=
@@ -34,13 +34,7 @@ for variant in builder signer server; do
 
 	rm "$dest"
 
-	case "$variant" in
-		builder)
-			dockerfile="Dockerfile-$variant.template"
-			;;
-		*)
-			dockerfile="Dockerfile.template"
-	esac
+	dockerfile="Dockerfile.template"
 
 	{
 		generated_warning

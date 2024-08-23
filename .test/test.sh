@@ -112,10 +112,9 @@ docker run "${args[@]}" \
 docker run "${args[@]}" \
 	--name notary-testclient \
 	--init \
-	pypy:2.7-bullseye bash -Eeuo pipefail -xc '
+	python:3.10-bullseye bash -Eeuo pipefail -xc '
 		ln -svf ../../fixtures/root-ca.crt cmd/notary/
-		pypy ./buildscripts/testclient.py \
+		python3 ./buildscripts/testclient.py \
 			--reponame registry.local:5000/testclient/testclient \
 			--server "$DOCKER_CONTENT_TRUST_SERVER"
 	'
-# TODO switch to something like "python:3.10-bullseye" once testclient.py actually supports Python 3 🙈

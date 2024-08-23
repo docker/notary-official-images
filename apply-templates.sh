@@ -13,14 +13,6 @@ elif [ "$BASH_SOURCE" -nt "$jqt" ]; then
 	wget -qO "$jqt" 'https://github.com/docker-library/bashbrew/raw/9f6a35772ac863a0241f147c820354e4008edf38/scripts/jq-template.awk'
 fi
 
-jqf='.template-helper-functions.jq'
-if [ -n "${BASHBREW_SCRIPTS:-}" ]; then
-	jqf="$BASHBREW_SCRIPTS/template-helper-functions.jq"
-elif [ "$BASH_SOURCE" -nt "$jqf" ]; then
-	wget -qO "$jqf" 'https://github.com/docker-library/bashbrew/raw/master/scripts/template-helper-functions.jq'
-fi
-
-
 generated_warning() {
 	cat <<-EOH
 		#
@@ -34,7 +26,7 @@ generated_warning() {
 
 export version=latest
 
-for variant in builder signer server; do
+for variant in signer server; do
 	export variant
 
 	dockerfile=
@@ -42,13 +34,7 @@ for variant in builder signer server; do
 
 	rm "$dest"
 
-	case "$variant" in
-		builder)
-			dockerfile="Dockerfile-$variant.template"
-			;;
-		*)
-			dockerfile="Dockerfile.template"
-	esac
+	dockerfile="Dockerfile.template"
 
 	{
 		generated_warning

@@ -30,7 +30,7 @@ docker run "${common[@]}" "${interactive[@]}" \
 	--tmpfs /cmd/notary \
 	--workdir /fixtures \
 	--init \
-	buildpack-deps:bullseye bash -Eeuo pipefail -x -c '
+	buildpack-deps:bookworm bash -Eeuo pipefail -x -c '
 		find /fixtures -mindepth 1 -delete
 		cp -vf /notary-fixtures/*.key /fixtures/
 		sed -r -e "s/^command/exit 0 #/" /notary-fixtures/regenerateTestingCerts.sh > /fixtures/regenerateTestingCerts.sh # skip cfssl bits we do not need
@@ -105,14 +105,14 @@ docker run "${args[@]}" \
 	--env GOCACHE=/tmp \
 	--tmpfs /tmp \
 	--init \
-	golang:1.18-bullseye bash -Eeuo pipefail -xc '
+	golang:1.22-bookworm bash -Eeuo pipefail -xc '
 		make client
 	'
 
 docker run "${args[@]}" \
 	--name notary-testclient \
 	--init \
-	python:3.10-bullseye bash -Eeuo pipefail -xc '
+	python:3.12-bookworm bash -Eeuo pipefail -xc '
 		ln -svf ../../fixtures/root-ca.crt cmd/notary/
 		python3 ./buildscripts/testclient.py \
 			--reponame registry.local:5000/testclient/testclient \

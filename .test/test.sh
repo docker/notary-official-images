@@ -105,7 +105,7 @@ docker run "${args[@]}" \
 	--env GOCACHE=/tmp \
 	--tmpfs /tmp \
 	--init \
-	golang:1.18-bullseye bash -Eeuo pipefail -xc '
+	golang:1.22-bookworm bash -Eeuo pipefail -xc '
 		make client
 	'
 

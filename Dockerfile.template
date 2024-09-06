@@ -1,9 +1,10 @@
-FROM golang:1.19-alpine{{ .alpine }} AS build
+{{ def alpine: "3.20" -}}
+FROM golang:1.22-alpine{{ alpine }} AS build
 
 RUN apk add --no-cache git make
 
 ENV NOTARYPKG github.com/theupdateframework/notary
-ENV TAG v{{ .version }}
+ENV TAG v0.7.0
 
 ENV GOFLAGS -mod=vendor
 
@@ -26,7 +27,7 @@ RUN set -eux; \
 	/notary-server --version; \
 	/notary-signer --version;
 
-FROM alpine:{{ .alpine }}
+FROM alpine:{{ alpine }}
 
 RUN adduser -D -H -g "" notary
 {{ if env.variant == "server" then ( -}}

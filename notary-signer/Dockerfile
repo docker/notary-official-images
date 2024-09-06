@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM golang:1.19-alpine3.16 AS build
+FROM golang:1.22-alpine3.20 AS build
 
 RUN apk add --no-cache git make
 
@@ -32,7 +32,7 @@ RUN set -eux; \
 	/notary-server --version; \
 	/notary-signer --version;
 
-FROM alpine:3.16
+FROM alpine:3.20
 
 RUN adduser -D -H -g "" notary
 EXPOSE 4444

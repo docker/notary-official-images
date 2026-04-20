@@ -9,10 +9,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
       - run: docker build notary-server --tag notary:server
       - run: docker build notary-signer --tag notary:signer
-      - uses: actions/checkout@v3 # clone Notary upstream repo (used for generating necessary certificates to test against)
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           repository: 'notaryproject/notary'
           ref: '887a007da8841e49023684656926d79d89d5a9d8'
